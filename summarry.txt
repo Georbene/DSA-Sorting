@@ -1,0 +1,6 @@
+| Algorithm      | Best Time  | Worst Time | Notes / Idea                       |
+| -------------- | ---------- | ---------- | ---------------------------------- |
+| Bubble Sort    | O(n)       | O(n²)      | Swap neighbors repeatedly          |
+| Insertion Sort | O(n)       | O(n²)      | Insert into correct spot           |
+| Quick Sort     | O(n log n) | O(n²)      | Divide by pivot (fast in practice) |
+| Merge Sort     | O(n log n) | O(n log n) | Divide & merge                     |
