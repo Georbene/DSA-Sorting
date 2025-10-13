@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Sort Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 { color: #38bdf8; }
+    button {
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    #output {
+      margin-top: 20px;
+      font-size: 18px;
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 8px;
+      min-height: 40px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quick Sort</h1>
+  <p>Original Array: <b id="array">[8, 4, 6, 2, 10]</b></p>
+  <button onclick="runQuick()">Run Quick Sort</button>
+  <div id="output">Click the button to sort!</div>
+
+  <script>
+    function quickSort(arr) {
+      if (arr.length < 2) return arr;
+      let pivot = arr[arr.length - 1];
+      let left = [];
+      let right = [];
+      for (let i = 0; i < arr.length - 1; i++) {
+        if (arr[i] < pivot) left.push(arr[i]);
+        else right.push(arr[i]);
+      }
+      return [...quickSort(left), pivot, ...quickSort(right)];
+    }
+
+    function runQuick() {
+      let arr = [8, 4, 6, 2, 10];
+      const result = quickSort(arr);
+      document.getElementById("output").innerText = "Sorted Array → " + result;
+    }
+  </script>
+</body>
+</html>

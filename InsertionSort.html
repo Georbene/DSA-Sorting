@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insertion Sort Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 { color: #38bdf8; }
+    button {
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    #output {
+      margin-top: 20px;
+      font-size: 18px;
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 8px;
+      min-height: 40px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Insertion Sort</h1>
+  <p>Original Array: <b id="array">[8, 4, 6, 2, 10]</b></p>
+  <button onclick="runInsertion()">Run Insertion Sort</button>
+  <div id="output">Click the button to sort!</div>
+
+  <script>
+    function insertionSort(arr) {
+      for (let i = 1; i < arr.length; i++) {
+        let current = arr[i];
+        let j = i - 1;
+        while (j >= 0 && arr[j] > current) {
+          arr[j + 1] = arr[j];
+          j--;
+        }
+        arr[j + 1] = current;
+      }
+      return arr;
+    }
+
+    function runInsertion() {
+      let arr = [8, 4, 6, 2, 10];
+      const result = insertionSort(arr);
+      document.getElementById("output").innerText = "Sorted Array → " + result;
+    }
+  </script>
+</body>
+</html>

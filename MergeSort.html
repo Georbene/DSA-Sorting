@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merge Sort Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 { color: #38bdf8; }
+    button {
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    #output {
+      margin-top: 20px;
+      font-size: 18px;
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 8px;
+      min-height: 40px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Merge Sort</h1>
+  <p>Original Array: <b id="array">[8, 4, 6, 2, 10]</b></p>
+  <button onclick="runMerge()">Run Merge Sort</button>
+  <div id="output">Click the button to sort!</div>
+
+  <script>
+    function mergeSort(arr) {
+      if (arr.length < 2) return arr;
+      let mid = Math.floor(arr.length / 2);
+      let left = arr.slice(0, mid);
+      let right = arr.slice(mid);
+      return merge(mergeSort(left), mergeSort(right));
+    }
+
+    function merge(left, right) {
+      let sorted = [];
+      while (left.length && right.length) {
+        if (left[0] <= right[0]) sorted.push(left.shift());
+        else sorted.push(right.shift());
+      }
+      return [...sorted, ...left, ...right];
+    }
+
+    function runMerge() {
+      let arr = [8, 4, 6, 2, 10];
+      const result = mergeSort(arr);
+      document.getElementById("output").innerText = "Sorted Array → " + result;
+    }
+  </script>
+</body>
+</html>
