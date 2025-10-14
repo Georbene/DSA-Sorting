@@ -1,54 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Merge Sort Demo</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Merge Sort Visualization</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
+      font-family: "Inter", sans-serif;
+      background: #eef2ff;
       text-align: center;
+      color: #312e81;
       padding: 40px;
     }
-    h1 { color: #38bdf8; }
-    button {
-      background: #38bdf8;
-      color: #0f172a;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
+    .bar-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 10px;
+      margin-top: 30px;
     }
-    #output {
-      margin-top: 20px;
-      font-size: 18px;
-      background: #1e293b;
-      padding: 20px;
-      border-radius: 8px;
-      min-height: 40px;
+    .bar {
+      width: 40px;
+      background: #a5b4fc;
+      border-radius: 6px 6px 0 0;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+      .next {
+      margin-top: 100px;
+      margin-left: -1200px;
     }
   </style>
 </head>
 <body>
-  <h1>Merge Sort</h1>
-  <p>Original Array: <b id="array">[8, 4, 6, 2, 10]</b></p>
-  <button onclick="runMerge()">Run Merge Sort</button>
-  <div id="output">Click the button to sort!</div>
+  <h1>🪄 Merge Sort Demo</h1>
+  <p>Splitting and merging sorted bars step by step</p>
+  <div class="bar-container" id="bars"></div>
+    <b><a href="InsertionSort.html">Insertion Sort</a>j</b>
+
 
   <script>
-    function mergeSort(arr) {
-      if (arr.length < 2) return arr;
-      let mid = Math.floor(arr.length / 2);
-      let left = arr.slice(0, mid);
-      let right = arr.slice(mid);
+    const arr = [4, 8, 6, 2, 10];
+    const container = document.getElementById("bars");
+
+    function renderBars(array) {
+      container.innerHTML = "";
+      array.forEach(num => {
+        const bar = document.createElement("div");
+        bar.classList.add("bar");
+        bar.style.height = `${num * 30}px`;
+        bar.textContent = num;
+        container.appendChild(bar);
+      });
+    }
+
+    function mergeSort(array) {
+      if (array.length < 2) return array;
+      const mid = Math.floor(array.length / 2);
+      const left = array.slice(0, mid);
+      const right = array.slice(mid);
       return merge(mergeSort(left), mergeSort(right));
     }
 
     function merge(left, right) {
-      let sorted = [];
+      const sorted = [];
       while (left.length && right.length) {
         if (left[0] <= right[0]) sorted.push(left.shift());
         else sorted.push(right.shift());
@@ -56,11 +71,11 @@
       return [...sorted, ...left, ...right];
     }
 
-    function runMerge() {
-      let arr = [8, 4, 6, 2, 10];
-      const result = mergeSort(arr);
-      document.getElementById("output").innerText = "Sorted Array → " + result;
-    }
+    renderBars(arr);
+    setTimeout(() => {
+      const sorted = mergeSort(arr);
+      renderBars(sorted);
+    }, 1000);
   </script>
 </body>
 </html>

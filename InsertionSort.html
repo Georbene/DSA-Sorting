@@ -1,62 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Insertion Sort Demo</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insertion Sort Visualization</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
+      font-family: "Poppins", sans-serif;
+      background: #fff7ed;
       text-align: center;
       padding: 40px;
     }
-    h1 { color: #38bdf8; }
-    button {
-      background: #38bdf8;
-      color: #0f172a;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
+    h1 {
+      color: #ea580c;
     }
-    #output {
-      margin-top: 20px;
-      font-size: 18px;
-      background: #1e293b;
-      padding: 20px;
-      border-radius: 8px;
-      min-height: 40px;
+    .bar-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 10px;
+      margin-top: 30px;
+    }
+    .bar {
+      width: 40px;
+      background: #fdba74;
+      border-radius: 6px 6px 0 0;
+      color: #1e293b;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+      .next {
+      margin-top: 100px;
+      margin-left: -1200px;
     }
   </style>
 </head>
 <body>
-  <h1>Insertion Sort</h1>
-  <p>Original Array: <b id="array">[8, 4, 6, 2, 10]</b></p>
-  <button onclick="runInsertion()">Run Insertion Sort</button>
-  <div id="output">Click the button to sort!</div>
+  <h1>🃏 Insertion Sort Demo</h1>
+  <p>Sorting like inserting playing cards in the right position</p>
+  <div class="bar-container" id="bars"></div>
+
+    <a href="QuickSort.html">Quick Sort</a>
 
   <script>
-    function insertionSort(arr) {
-      for (let i = 1; i < arr.length; i++) {
-        let current = arr[i];
-        let j = i - 1;
-        while (j >= 0 && arr[j] > current) {
-          arr[j + 1] = arr[j];
-          j--;
-        }
-        arr[j + 1] = current;
-      }
-      return arr;
+    const arr = [9, 5, 1, 4, 3];
+    const container = document.getElementById("bars");
+
+    function renderBars(array) {
+      container.innerHTML = "";
+      array.forEach(num => {
+        const bar = document.createElement("div");
+        bar.classList.add("bar");
+        bar.style.height = `${num * 30}px`;
+        bar.textContent = num;
+        container.appendChild(bar);
+      });
     }
 
-    function runInsertion() {
-      let arr = [8, 4, 6, 2, 10];
-      const result = insertionSort(arr);
-      document.getElementById("output").innerText = "Sorted Array → " + result;
+    async function insertionSort(array) {
+      for (let i = 1; i < array.length; i++) {
+        let current = array[i];
+        let j = i - 1;
+        while (j >= 0 && array[j] > current) {
+          array[j + 1] = array[j];
+          j--;
+          renderBars(array);
+          await new Promise(r => setTimeout(r, 600));
+        }
+        array[j + 1] = current;
+        renderBars(array);
+        await new Promise(r => setTimeout(r, 900));
+      }
     }
+
+    renderBars(arr);
+    insertionSort(arr);
   </script>
+
 </body>
 </html>

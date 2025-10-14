@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sorting Algorithms Visualization</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      background: #68768b;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      background: #4b6cb7;
+      background: linear-gradient(to right, #182848, #4b6cb7);
+      color: white;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    #bars-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      height: 400px;
+      margin: 30px auto;
+      width: 90%;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .bar {
+      width: 30px;
+      margin: 2px;
+      background: #4b6cb7;
+      border-radius: 5px 5px 0 0;
+      transition: all 0.3s ease;
+    }
+
+    .controls {
+      margin: 20px;
+    }
+
+    button {
+      background: #4b6cb7;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #182848;
+    }
+
+    #speed {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Sorting Algorithms Visualization</h1>
+
+  <div class="controls">
+    <button onclick="generateBars()">Generate New Bars</button>
+    <button onclick="bubbleSort()">Bubble Sort</button>
+    <button onclick="insertionSort()">Insertion Sort</button>
+    <button onclick="quickSortStart()">Quick Sort</button>
+    <button onclick="mergeSortStart()">Merge Sort</button>
+    <br>
+    <label>Speed: </label>
+    <input type="range" id="speed" min="50" max="1000" value="200">
+  </div>
+
+  <div id="bars-container"></div>
+
+  <script>
+    const barsContainer = document.getElementById("bars-container");
+    let bars = [];
+    let delay = 200;
+
+    // Generate random bars
+    function generateBars(num = 20) {
+      barsContainer.innerHTML = "";
+      bars = [];
+      for (let i = 0; i < num; i++) {
+        const value = Math.floor(Math.random() * 300) + 50;
+        const bar = document.createElement("div");
+        bar.classList.add("bar");
+        bar.style.height = value + "px";
+        barsContainer.appendChild(bar);
+        bars.push(bar);
+      }
+    }
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    document.getElementById("speed").addEventListener("input", (e) => {
+      delay = e.target.value;
+    });
+
+    // Bubble Sort
+    async function bubbleSort() {
+      const arr = bars.map(bar => parseInt(bar.style.height));
+      for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length - i - 1; j++) {
+          bars[j].style.background = "orange";
+          bars[j+1].style.background = "orange";
+          if (arr[j] > arr[j+1]) {
+            [arr[j], arr[j+1]] = [arr[j+1], arr[j]];
+            bars[j].style.height = arr[j] + "px";
+            bars[j+1].style.height = arr[j+1] + "px";
+          }
+          await sleep(delay);
+          bars[j].style.background = "#4b6cb7";
+          bars[j+1].style.background = "#4b6cb7";
+        }
+      }
+    }
+
+    // Insertion Sort
+    async function insertionSort() {
+      const arr = bars.map(bar => parseInt(bar.style.height));
+      for (let i = 1; i < arr.length; i++) {
+        let key = arr[i];
+        let j = i - 1;
+        bars[i].style.background = "orange";
+        while (j >= 0 && arr[j] > key) {
+          arr[j + 1] = arr[j];
+          bars[j + 1].style.height = arr[j] + "px";
+          j--;
+          await sleep(delay);
+        }
+        arr[j + 1] = key;
+        bars[j + 1].style.height = key + "px";
+        bars[i].style.background = "#4b6cb7";
+      }
+    }
+
+    // Quick Sort
+    async function quickSortStart() {
+      const arr = bars.map(bar => parseInt(bar.style.height));
+      await quickSort(arr, 0, arr.length - 1);
+    }
+
+    async function quickSort(arr, left, right) {
+      if (left >= right) return;
+      let pivot = arr[right];
+      let partitionIndex = left;
+      bars[right].style.background = "red";
+      for (let i = left; i < right; i++) {
+        bars[i].style.background = "orange";
+        if (arr[i] < pivot) {
+          [arr[i], arr[partitionIndex]] = [arr[partitionIndex], arr[i]];
+          bars[i].style.height = arr[i] + "px";
+          bars[partitionIndex].style.height = arr[partitionIndex] + "px";
+          partitionIndex++;
+        }
+        await sleep(delay);
+        bars[i].style.background = "#4b6cb7";
+      }
+      [arr[partitionIndex], arr[right]] = [arr[right], arr[partitionIndex]];
+      bars[partitionIndex].style.height = arr[partitionIndex] + "px";
+      bars[right].style.height = arr[right] + "px";
+      bars[right].style.background = "#4b6cb7";
+      await sleep(delay);
+      await quickSort(arr, left, partitionIndex - 1);
+      await quickSort(arr, partitionIndex + 1, right);
+    }
+
+    // Merge Sort
+    async function mergeSortStart() {
+      const arr = bars.map(bar => parseInt(bar.style.height));
+      await mergeSort(arr, 0, arr.length - 1);
+    }
+
+    async function mergeSort(arr, left, right) {
+      if (left >= right) return;
+      const mid = Math.floor((left + right) / 2);
+      await mergeSort(arr, left, mid);
+      await mergeSort(arr, mid + 1, right);
+      await merge(arr, left, mid, right);
+    }
+
+    async function merge(arr, left, mid, right) {
+      const leftArr = arr.slice(left, mid + 1);
+      const rightArr = arr.slice(mid + 1, right + 1);
+      let i = 0, j = 0, k = left;
+      while (i < leftArr.length && j < rightArr.length) {
+        bars[k].style.background = "orange";
+        if (leftArr[i] <= rightArr[j]) {
+          arr[k] = leftArr[i];
+          bars[k].style.height = leftArr[i] + "px";
+          i++;
+        } else {
+          arr[k] = rightArr[j];
+          bars[k].style.height = rightArr[j] + "px";
+          j++;
+        }
+        await sleep(delay);
+        bars[k].style.background = "#4b6cb7";
+        k++;
+      }
+      while (i < leftArr.length) {
+        arr[k] = leftArr[i];
+        bars[k].style.height = leftArr[i] + "px";
+        i++; k++;
+        await sleep(delay);
+      }
+      while (j < rightArr.length) {
+        arr[k] = rightArr[j];
+        bars[k].style.height = rightArr[j] + "px";
+        j++; k++;
+        await sleep(delay);
+      }
+    }
+
+    // Generate initial bars on load
+    generateBars();
+  </script>
+
+</body>
+</html>

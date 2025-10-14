@@ -1,59 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bubble Sort Demo</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bubble Sort Visualization</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
+      font-family: "Segoe UI", sans-serif;
+      background: #f3f4f6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      justify-content: center;
+    }
+    h1 {
+      color: #2563eb;
+    }
+    .bar-container {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      margin-top: 30px;
+    }
+    .bar {
+      width: 40px;
+      background: #93c5fd;
       color: white;
       text-align: center;
-      padding: 40px;
+      border-radius: 6px 6px 0 0;
+      transition: all 0.3s ease;
     }
-    button {
-      background: #38bdf8;
-      color: #0f172a;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    #output {
-      margin-top: 20px;
-      background: #1e293b;
-      padding: 20px;
-      border-radius: 8px;
+    .next {
+      margin-top: 100px;
+      margin-left: -1200px;
     }
   </style>
 </head>
 <body>
-  <h1>Bubble Sort</h1>
-  <p>Array: <b>[8, 4, 6, 2, 10]</b></p>
-  <button onclick="runBubble()">Sort</button>
-  <div id="output"></div>
+    
+    <h1>🫧 Bubble Sort Demo</h1>
+    <p>Sorting numbers like lining up students by height</p>
+    <div class="bar-container" id="bars"></div>
+    
+    <div class="next">
+    <a href="InsertionSort.html">Insertion Sort</a>
+    </div>
+    <script>
+    const arr = [5, 3, 8, 4, 2];
+    const container = document.getElementById("bars");
 
-  <script>
-    function bubbleSort(arr) {
-      for (let i = 0; i < arr.length - 1; i++) {
-        for (let j = 0; j < arr.length - 1 - i; j++) {
-          if (arr[j] > arr[j + 1]) {
-            let temp = arr[j];
-            arr[j] = arr[j + 1];
-            arr[j + 1] = temp;
+    function renderBars(array) {
+      container.innerHTML = "";
+      array.forEach(num => {
+          const bar = document.createElement("div");
+          bar.classList.add("bar");
+          bar.style.height = `${num * 30}px`;
+          bar.textContent = num;
+        container.appendChild(bar);
+      });
+    }
+
+    async function bubbleSort(array) {
+      let swapped;
+      do {
+        swapped = false;
+        for (let i = 0; i < array.length - 1; i++) {
+          if (array[i] > array[i + 1]) {
+            [array[i], array[i + 1]] = [array[i + 1], array[i]];
+            swapped = true;
+            renderBars(array);
+            await new Promise(r => setTimeout(r, 900));
           }
         }
-      }
-      return arr;
+      } while (swapped);
     }
 
-    function runBubble() {
-      let arr = [8, 4, 6, 2, 10];
-      let sorted = bubbleSort(arr);
-      document.getElementById("output").innerText = "Sorted: " + sorted;
-    }
+    renderBars(arr);
+    bubbleSort(arr);
+
+
   </script>
 </body>
 </html>

@@ -1,61 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quick Sort Demo</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Sort Visualization</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
+      font-family: "Segoe UI", sans-serif;
+      background: #ecfdf5;
       text-align: center;
+      color: #065f46;
       padding: 40px;
     }
-    h1 { color: #38bdf8; }
-    button {
-      background: #38bdf8;
-      color: #0f172a;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
+    .bar-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 10px;
+      margin-top: 30px;
     }
-    #output {
-      margin-top: 20px;
-      font-size: 18px;
-      background: #1e293b;
-      padding: 20px;
-      border-radius: 8px;
-      min-height: 40px;
+    .bar {
+      width: 40px;
+      background: #6ee7b7;
+      border-radius: 6px 6px 0 0;
+      font-weight: bold;
+      transition: all 0.3s ease;
     }
   </style>
 </head>
 <body>
-  <h1>Quick Sort</h1>
-  <p>Original Array: <b id="array">[8, 4, 6, 2, 10]</b></p>
-  <button onclick="runQuick()">Run Quick Sort</button>
-  <div id="output">Click the button to sort!</div>
+  <h1>⚡ Quick Sort Demo</h1>
+  <p>Divide and conquer: splitting bars into smaller and larger sides</p>
+  <div class="bar-container" id="bars"></div>
 
   <script>
-    function quickSort(arr) {
-      if (arr.length < 2) return arr;
-      let pivot = arr[arr.length - 1];
-      let left = [];
-      let right = [];
-      for (let i = 0; i < arr.length - 1; i++) {
-        if (arr[i] < pivot) left.push(arr[i]);
-        else right.push(arr[i]);
-      }
+    const arr = [10, 5, 2, 3, 7];
+    const container = document.getElementById("bars");
+
+    function renderBars(array) {
+      container.innerHTML = "";
+      array.forEach(num => {
+        const bar = document.createElement("div");
+        bar.classList.add("bar");
+        bar.style.height = `${num * 30}px`;
+        bar.textContent = num;
+        container.appendChild(bar);
+      });
+    }
+
+    function quickSort(array) {
+      if (array.length < 2) return array;
+      const pivot = array[array.length - 1];
+      const left = array.filter(x => x < pivot);
+      const right = array.filter(x => x > pivot);
       return [...quickSort(left), pivot, ...quickSort(right)];
     }
 
-    function runQuick() {
-      let arr = [8, 4, 6, 2, 10];
-      const result = quickSort(arr);
-      document.getElementById("output").innerText = "Sorted Array → " + result;
-    }
+    renderBars(arr);
+    setTimeout(() => {
+      const sorted = quickSort(arr);
+      renderBars(sorted);
+    }, 1000);
   </script>
 </body>
 </html>
