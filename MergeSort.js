@@ -3,51 +3,65 @@
 // Example:
 // [8, 4, 6, 2] → [2, 4, 6, 8]
 
-function mergeSort(arr) {
-  // 👇 BASE CASE: Single element or empty = already sorted
+
+
+
+
+
+
+// function mergeSort(arr) {
+//   if (arr.length <= 1) return arr; // base case
+
+//   let mid = Math.floor(arr.length / 2);
+//   let left = arr.slice(0, mid);
+//   let right = arr.slice(mid);
+
+//   console.log(`Split: [${arr.join(', ')}] → [${left.join(', ')}] | [${right.join(', ')}]`);
+
+//   return merge(mergeSort(left), mergeSort(right));
+// }
+
+// function merge(left, right) {
+//   let res = [];
+//   while (left.length && right.length) {
+//     res.push(left[0] < right[0] ? left.shift() : right.shift());
+//   }
+//   return [...res, ...left, ...right];
+// }
+
+// // Example
+// let nums = [8, 4, 6, 2];
+// console.log("Start:", nums.join(', '));
+// console.log("\n✅ Sorted:", mergeSort(nums).join(', '));
+
+
+
+function mergeSort(arr, d = 0) {
   if (arr.length <= 1) return arr;
-  
-  // 👇 SPLIT: Divide into two halves (divide & conquer)
+
+  let s = " ".repeat(d * 2);
   let mid = Math.floor(arr.length / 2);
-  let left = arr.slice(0, mid);   // 👇 Left half
-  let right = arr.slice(mid);     // 👇 Right half
-  
-  console.log(`🔍 Split: [${arr.join(', ')}] → [${left.join(', ')}] | [${right.join(', ')}]`);
-  
-  // 👇 RECURSION: Sort each half
-  let sortedLeft = mergeSort(left);
-  let sortedRight = mergeSort(right);
-  
-  // 👇 MERGE: Combine sorted halves
-  let result = merge(sortedLeft, sortedRight);
-  console.log(`   Merge: [${sortedLeft.join(', ')}] + [${sortedRight.join(', ')}] → [${result.join(', ')}]`);
-  
-  return result;
+  let left = arr.slice(0, mid);
+  let right = arr.slice(mid);
+
+  console.log(`${s}Split: [${arr.join(', ')}]`);
+  let merged = merge(mergeSort(left, d + 1), mergeSort(right, d + 1));
+  console.log(`${s}Merge: [${merged.join(', ')}]`);
+  return merged;
 }
 
 function merge(left, right) {
-  let result = [];
-  let i = 0, j = 0; // 👇 Pointers to current elements
-  
-  // 👇 COMPARE HEADS: Take smaller each time
-  while (i < left.length && j < right.length) {
-    if (left[i] <= right[j]) {
-      result.push(left[i++]); // 👇 Left is smaller
-    } else {
-      result.push(right[j++]); // 👇 Right is smaller
-    }
-  }
-  
-  // 👇 ADD REMAINING: One side may have leftovers
-  while (i < left.length) result.push(left[i++]);
-  while (j < right.length) result.push(right[j++]);
-  
-  return result;
+  let r = [];
+  while (left.length && right.length)
+    r.push(left[0] < right[0] ? left.shift() : right.shift());
+  return [...r, ...left, ...right];
 }
 
-// Test
-console.log("Start:", [8, 4, 6, 2]);
-console.log("Sorted:", mergeSort([8, 4, 6, 2]));
+let nums = [8, 4, 6, 2];
+console.log("Start:", nums.join(', '));
+console.log("\n Sorted:", mergeSort(nums).join(', '));
+
+
 
 
 

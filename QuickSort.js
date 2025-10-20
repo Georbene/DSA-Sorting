@@ -5,39 +5,25 @@
 // [5, 2, 8] → [2, 5, 8]
 
 function quickSort(arr) {
-  // 👇 BASE CASE: 0 or 1 elements = already sorted
-  if (arr.length <= 1) return arr;
-  
-  // 👇 PICK PIVOT (last element in this example)
+  if (arr.length <= 1) return arr; // base case
+
   let pivot = arr[arr.length - 1];
-  console.log(`🔍 Pivot: ${pivot}`);
-  
-  let left = [];  // 👇 SMALLER than pivot
-  let right = []; // 👇 LARGER than pivot
-  
-  // 👇 PARTITION: Divide array around pivot
+  let left = [];
+  let right = [];
+
   for (let i = 0; i < arr.length - 1; i++) {
-    if (arr[i] < pivot) {
-      left.push(arr[i]);   // 👇 Goes to LEFT (smaller)
-    } else {
-      right.push(arr[i]);  // 👇 Goes to RIGHT (larger)
-    }
+    arr[i] < pivot ? left.push(arr[i]) : right.push(arr[i]);
   }
-  
-  console.log(`   Left: [${left.join(', ')}] | Pivot: [${pivot}] | Right: [${right.join(', ')}]`);
-  
-  // 👇 RECURSION: Sort sub-arrays (divide & conquer!)
-  let sortedLeft = quickSort(left);
-  let sortedRight = quickSort(right);
-  
-  // 👇 COMBINE: Sorted left + pivot + sorted right
-  return [...sortedLeft, pivot, ...sortedRight];
+
+  console.log(`Pivot ${pivot} → Left: [${left.join(', ')}], Right: [${right.join(', ')}]`);
+
+  return [...quickSort(left), pivot, ...quickSort(right)];
 }
 
-// Test
-console.log("Start:", [5, 2, 8, 3, 1]);
-console.log("Sorted:", quickSort([5, 2, 8, 3, 1]));
-
+// Example
+let nums = [5, 2, 8, 3, 1];
+console.log("Start:", nums.join(', '));
+console.log("\n Sorted:", quickSort(nums).join(', '));
 
 
 

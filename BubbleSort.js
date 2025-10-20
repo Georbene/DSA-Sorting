@@ -2,42 +2,24 @@
 
 // Example:
 // [5, 2, 4] → [2, 4, 5]
-
-
-
 function bubbleSort(arr) {
-  // 👇 OUTER LOOP: Controls PASSES (n-1 passes needed)
-  // Each pass bubbles largest unsorted element to its final position
   for (let i = 0; i < arr.length - 1; i++) {
-    
-    // 👇 INNER LOOP: Compare adjacent pairs
-    // j < arr.length - 1 - i: Skip already sorted elements at end
-    // After pass 'i', last 'i' elements are correctly positioned
+    console.log(`\nPass ${i + 1}:`);
     for (let j = 0; j < arr.length - 1 - i; j++) {
-      
-      // 👇 COMPARE: If left > right, swap to bubble larger element right
       if (arr[j] > arr[j + 1]) {
-        // 👇 SWAP VISUALIZATION
-        console.log(`🔄 Swap at positions ${j} & ${j+1}:`);
-        console.log(`   Before: ${arr[j]} > ${arr[j + 1]}`);
-        
-        let temp = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = temp;
-        
-        console.log(`   After:  ${arr[j]} < ${arr[j + 1]}`);
-        console.log(`   Array:  [${arr.join(', ')}]`);
-        console.log('');
+        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]; // swap
+        console.log(`Swap → [${arr.join(', ')}]`);
       }
     }
   }
   return arr;
 }
 
-// Test
-console.log("Start:", [5, 2, 4, 1].join(', '));
-bubbleSort([5, 2, 4, 1]);
-
+// Example
+let nums = [5, 2, 7, 9, 4, 1];
+console.log("Start:", nums.join(', '));
+bubbleSort(nums);
+console.log("\n Sorted:", nums.join(', '));
 
 
 
